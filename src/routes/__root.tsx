@@ -7,10 +7,12 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { getActiveSite } from "@/sites";
+
+const site = getActiveSite();
 
 function NotFoundComponent() {
   return (
@@ -37,9 +39,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -77,19 +76,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sheridan Godfrey Plumbing — Licensed Plumber ACT & NSW" },
-      {
-        name: "description",
-        content:
-          "Licensed ACT plumber. 24/7 emergency response for burst pipes, blocked drains and hot water. Upfront pricing, 10+ years experience. Call 0401 661 299.",
-      },
-      { name: "author", content: "Sheridan Godfrey Plumbing" },
-      { property: "og:title", content: "Sheridan Godfrey Plumbing — Licensed Plumber ACT" },
-      {
-        property: "og:description",
-        content:
-          "Professional plumbing across the ACT and surrounding NSW. Emergency response, honest pricing, fully licensed and insured.",
-      },
+      { title: site.seo.title },
+      { name: "description", content: site.seo.description },
+      { name: "author", content: site.business.name },
+      { property: "og:title", content: site.seo.ogTitle },
+      { property: "og:description", content: site.seo.ogDescription },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -113,6 +104,12 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <style
+          // Per-site brand color override — falls back to styles.css defaults if unset.
+          dangerouslySetInnerHTML={{
+            __html: `:root{--primary:${site.theme.primary};--accent:${site.theme.accent}}`,
+          }}
+        />
       </head>
       <body>
         {children}
