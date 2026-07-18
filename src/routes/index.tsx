@@ -26,11 +26,13 @@ export const Route = createFileRoute("/")({
             addressRegion: site.seo.jsonLd.addressRegion,
             addressCountry: site.seo.jsonLd.addressCountry,
           },
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: site.seo.jsonLd.aggregateRating.value,
-            reviewCount: site.seo.jsonLd.aggregateRating.count,
-          },
+          ...(site.seo.jsonLd.aggregateRating && {
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: site.seo.jsonLd.aggregateRating.value,
+              reviewCount: site.seo.jsonLd.aggregateRating.count,
+            },
+          }),
         }),
       },
     ],
@@ -114,24 +116,29 @@ function Hero() {
         <div className="relative">
           <div className="absolute -inset-4 rounded-2xl bg-gradient-to-tr from-primary/20 via-transparent to-transparent blur-2xl" />
           <div className="relative overflow-hidden rounded-2xl border border-hairline">
-            <img
-              src={site.hero.image}
-              alt={site.hero.imageAlt}
-              width={1600}
-              height={1200}
-              className="w-full h-[420px] md:h-[520px] object-cover"
-            />
-            <div className="absolute bottom-4 left-4 right-4 rounded-lg bg-background/85 backdrop-blur border border-hairline px-4 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm">
-                <Clock className="h-4 w-4 text-primary" />
-                <span className="font-semibold">24/7 emergency</span>
+            {site.hero.image ? (
+              <img
+                src={site.hero.image}
+                alt={site.hero.imageAlt}
+                width={1600}
+                height={1200}
+                className="w-full h-[420px] md:h-[520px] object-cover"
+              />
+            ) : (
+              <div className="w-full h-[420px] md:h-[520px] bg-surface-2 flex items-center justify-center">
+                <Wrench className="h-16 w-16 text-primary/40" />
               </div>
-              <div className="flex items-center gap-1 text-sm">
-                <Star className="h-4 w-4 fill-primary text-primary" />
-                <span className="font-semibold">5.0</span>
-                <span className="text-muted-foreground">Google</span>
+            )}
+            {site.hero.badges && site.hero.badges.length > 0 && (
+              <div className="absolute bottom-4 left-4 right-4 rounded-lg bg-background/85 backdrop-blur border border-hairline px-4 py-3 flex items-center justify-between">
+                {site.hero.badges.map(({ icon: Icon, label }) => (
+                  <div key={label} className="flex items-center gap-2 text-sm">
+                    <Icon className="h-4 w-4 text-primary" />
+                    <span className="font-semibold">{label}</span>
+                  </div>
+                ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

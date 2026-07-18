@@ -12,8 +12,13 @@ export type SiteConfig = {
     eyebrow: string;
     heading: [string, string];
     subheading: string;
-    image: string;
-    imageAlt: string;
+    // Omit until a real photo is available — the hero renders a generic
+    // placeholder instead of a stand-in photo of a different business.
+    image?: string;
+    imageAlt?: string;
+    // Small overlay badges on the hero photo (e.g. "24/7 emergency"). Only
+    // include claims that are actually confirmed for this business.
+    badges?: { icon: LucideIcon; label: string }[];
   };
   theme: {
     primary: string;
@@ -60,7 +65,8 @@ export type SiteConfig = {
       areaServed: string[];
       addressRegion: string;
       addressCountry: string;
-      aggregateRating: { value: string; count: string };
+      // Omit until a real, verified rating/review count is known.
+      aggregateRating?: { value: string; count: string };
     };
   };
 };

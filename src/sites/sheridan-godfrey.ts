@@ -7,6 +7,7 @@ import {
   ClipboardCheck,
   ShieldCheck,
   Star,
+  Clock,
 } from "lucide-react";
 
 import heroImg from "@/assets/sites/sheridan-godfrey/hero.jpg";
@@ -27,6 +28,10 @@ export const sheridanGodfrey: SiteConfig = {
       "Ten years of honest diagnostics, upfront pricing and fast response — from burst pipes at 2 a.m. to bathroom renovations you'll live with for a decade.",
     image: heroImg,
     imageAlt: "Sheridan Godfrey working on a chrome sink trap",
+    badges: [
+      { icon: Clock, label: "24/7 emergency" },
+      { icon: Star, label: "5.0 Google" },
+    ],
   },
   theme: {
     primary: "oklch(0.72 0.16 55)", // warm copper

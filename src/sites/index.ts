@@ -1,8 +1,12 @@
 import { sheridanGodfrey } from "./sheridan-godfrey";
+import { andrewMcreynolds } from "./andrew-mcreynolds";
+import { duncansPlumbing } from "./duncans-plumbing";
 import type { SiteConfig } from "./types";
 
 const sites = {
   "sheridan-godfrey": sheridanGodfrey,
+  "andrew-mcreynolds": andrewMcreynolds,
+  "duncans-plumbing": duncansPlumbing,
 } satisfies Record<string, SiteConfig>;
 
 export type SiteId = keyof typeof sites;
